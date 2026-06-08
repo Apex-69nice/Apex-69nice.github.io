@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nikhil Kumar — Portfolio</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a18;
+    --ink2: #5a5a54;
+    --ink3: #9a9a92;
+    --surface: #f7f5f0;
+    --card: #ffffff;
+    --accent: #FF4D00;
+    --accent2: #1d6b4a;
+    --border: rgba(26,26,24,0.1);
+    --border2: rgba(26,26,24,0.06);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #f0ede6;
+      --ink2: #a8a49c;
+      --ink3: #686460;
+      --surface: #141410;
+      --card: #1e1e1a;
+      --accent: #FF4D00;
+      --accent2: #3cb87a;
+      --border: rgba(240,237,230,0.1);
+      --border2: rgba(240,237,230,0.05);
+    }
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .nav-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: var(--ink2);
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 13px; color: var(--ink2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+
+  .hero {
+    padding: 4rem 2rem 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: end;
+  }
+  .hero-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--accent2);
+    background: rgba(29,107,74,0.1);
+    padding: 4px 10px;
+    border-radius: 2px;
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub { font-size: 16px; color: var(--ink2); max-width: 520px; line-height: 1.7; margin-bottom: 2rem; }
+  .hero-cta { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 10px 20px;
+    background: var(--ink);
+    color: var(--surface);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.8; }
+  .btn-ghost {
+    padding: 10px 20px;
+    background: transparent;
+    color: var(--ink2);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-stat-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-end;
+    padding-bottom: 2.5rem;
+  }
+  .stat-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--ink3);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .stat-pill span { color: var(--ink); font-weight: 500; }
+
+  .divider { max-width: 900px; margin: 0 auto 3rem; padding: 0 2rem; border-top: 1px solid var(--border); }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink3);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .highlights { padding: 0 2rem 4rem; max-width: 900px; margin: 0 auto; }
+  .highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .highlight-card { background: var(--card); padding: 1.5rem; }
+  .highlight-icon { font-size: 24px; margin-bottom: 0.75rem; display: block; }
+  .highlight-card h3 { font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--ink); }
+  .highlight-card p { font-size: 13px; color: var(--ink2); line-height: 1.6; }
+  .highlight-card .tag {
+    display: inline-block;
+    margin-top: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    background: rgba(255,77,0,0.08);
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  .projects { padding: 0 2rem 4rem; max-width: 900px; margin: 0 auto; }
+  .project-list {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .project-item {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--card);
+    border-bottom: 1px solid var(--border2);
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.15s;
+    text-decoration: none;
+  }
+  .project-item:last-child { border-bottom: none; }
+  .project-item:hover { background: var(--surface); }
+  .project-item:hover .proj-arrow { color: var(--accent); transform: translateX(4px); }
+  .proj-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink3); margin-bottom: 0.4rem; }
+  .proj-title { font-family: 'DM Sans', sans-serif; font-size: 1.05rem; font-weight: 600; color: var(--ink); margin-bottom: 0.3rem; letter-spacing: -0.01em; }
+  .proj-desc { font-size: 13px; color: var(--ink2); line-height: 1.5; }
+  .proj-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 0.7rem; }
+  .ptag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    color: var(--ink3);
+    letter-spacing: 0.04em;
+  }
+  .proj-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; }
+  .proj-category { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.06em; padding: 4px 9px; border-radius: 2px; }
+  .cat-pm { background: rgba(29,107,74,0.1); color: var(--accent2); }
+  .cat-hardware { background: rgba(26,26,24,0.08); color: var(--ink2); }
+  .cat-comms { background: rgba(52,80,180,0.1); color: #3450B4; }
+  .proj-arrow { font-size: 18px; color: var(--ink3); transition: all 0.2s; }
+
+  .skills { padding: 0 2rem 4rem; max-width: 900px; margin: 0 auto; }
+  .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .skill-group { padding: 1.25rem; border: 1px solid var(--border); border-radius: 6px; background: var(--card); }
+  .skill-group-name { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.07em; color: var(--ink3); margin-bottom: 0.75rem; text-transform: uppercase; }
+  .skill-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 12px; color: var(--ink2); border: 1px solid var(--border); padding: 3px 9px; border-radius: 20px; }
+
+  .contact {
+    padding: 3rem 2rem 5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  .contact-left h2 { font-family: 'DM Sans', sans-serif; font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.4rem; }
+  .contact-left p { font-size: 13px; color: var(--ink2); }
+  .contact-links { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; }
+  .contact-link { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink2); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+  .contact-link:hover { color: var(--accent); }
+  .contact-link i { font-size: 14px; }
+
+  @media (max-width: 640px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-stat-col { display: none; }
+    .highlights-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .project-item { grid-template-columns: 1fr; }
+    .proj-right { flex-direction: row; }
+    .contact { flex-direction: column; align-items: flex-start; }
+    .contact-links { align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-name">NK — 2026</span>
+  <ul class="nav-links">
+    <li><a href="#highlights">About</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div>
+    <span class="hero-badge">Open to internships · Marketing / PM / Comms</span>
+    <h1>Nikhil Kumar —<br><em>builder</em> who speaks<br>to people.</h1>
+    <p class="hero-sub">Tech student at Bihar Engineering University. Google Campus Ambassador. HPAIR delegate. I build things with code and grow them with strategy.</p>
+    <div class="hero-cta">
+      <a href="mailto:nikhil2412777@gmail.com" class="btn-primary">Get in touch ↗</a>
+      <a href="https://github.com/Apex-69nice" class="btn-ghost">See my GitHub</a>
+    </div>
+  </div>
+  <div class="hero-stat-col">
+    <div class="stat-pill"><span>200+</span> students reached</div>
+    <div class="stat-pill"><span>60+</span> countries, HPAIR</div>
+    <div class="stat-pill"><span>40%</span> hackathon growth</div>
+    <div class="stat-pill"><span>7.6</span> CGPA, BEU</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="highlights" id="highlights">
+  <p class="section-label">What I bring</p>
+  <div class="highlights-grid">
+    <div class="highlight-card">
+      <i class="ti ti-speakerphone highlight-icon" aria-hidden="true"></i>
+      <h3>Community growth</h3>
+      <p>Grew hackathon participation 40% as Google Campus Ambassador. Comfortable running workshops, mentoring peers, and building momentum from scratch.</p>
+      <span class="tag">MARKETING</span>
+    </div>
+    <div class="highlight-card">
+      <i class="ti ti-cpu highlight-icon" aria-hidden="true"></i>
+      <h3>Technical depth</h3>
+      <p>Autonomous robots at IIT BHU Technex. AI-powered learning platform. An Android camera app. I ship across firmware, web, and mobile.</p>
+      <span class="tag">PRODUCT</span>
+    </div>
+    <div class="highlight-card">
+      <i class="ti ti-world highlight-icon" aria-hidden="true"></i>
+      <h3>Global perspective</h3>
+      <p>Selected among delegates from 60+ countries at HPAIR Hanoi — a competitive global leadership forum on Asia's future.</p>
+      <span class="tag">COMMS</span>
+    </div>
+  </div>
+</section>
+
+<section class="projects" id="projects">
+  <p class="section-label">Selected work</p>
+  <div class="project-list">
+
+    <a class="project-item" href="https://github.com/Apex-69nice" target="_blank" rel="noopener">
+      <div>
+        <p class="proj-num">01</p>
+        <p class="proj-title">CALPIST — AI Study Platform</p>
+        <p class="proj-desc">Perplexity-style YouTube search tool with infinite canvas, drawing tools, and AI-driven content recommendations. Built for students who learn from video.</p>
+        <div class="proj-tags">
+          <span class="ptag">HTML/CSS/JS</span><span class="ptag">YouTube API</span><span class="ptag">Open Source</span><span class="ptag">AI</span>
+        </div>
+      </div>
+      <div class="proj-right">
+        <span class="proj-category cat-pm">PRODUCT</span>
+        <i class="ti ti-arrow-right proj-arrow" aria-hidden="true"></i>
+      </div>
+    </a>
+
+    <a class="project-item" href="https://linkedin.com/in/nikhil-kumar" target="_blank" rel="noopener">
+      <div>
+        <p class="proj-num">02</p>
+        <p class="proj-title">Google Campus Ambassador</p>
+        <p class="proj-desc">Ran workshops on Gemini API and GCP for 200+ students. Grew hackathon participation 40% through community-building and peer mentorship.</p>
+        <div class="proj-tags">
+          <span class="ptag">Event Ops</span><span class="ptag">GCP</span><span class="ptag">Gemini API</span><span class="ptag">Community</span>
+        </div>
+      </div>
+      <div class="proj-right">
+        <span class="proj-category cat-comms">COMMS</span>
+        <i class="ti ti-arrow-right proj-arrow" aria-hidden="true"></i>
+      </div>
+    </a>
+
+    <a class="project-item" href="https://linkedin.com/in/nikhil-kumar" target="_blank" rel="noopener">
+      <div>
+        <p class="proj-num">03</p>
+        <p class="proj-title">HPAIR Asia Conference — Delegate</p>
+        <p class="proj-desc">Selected through global competitive review for a 5-day international leadership summit in Hanoi, among delegates from 60+ countries.</p>
+        <div class="proj-tags">
+          <span class="ptag">Leadership</span><span class="ptag">International</span><span class="ptag">Networking</span>
+        </div>
+      </div>
+      <div class="proj-right">
+        <span class="proj-category cat-comms">COMMS</span>
+        <i class="ti ti-arrow-right proj-arrow" aria-hidden="true"></i>
+      </div>
+    </a>
+
+    <a class="project-item" href="https://github.com/Apex-69nice" target="_blank" rel="noopener">
+      <div>
+        <p class="proj-num">04</p>
+        <p class="proj-title">Micromouse + Line-Follower</p>
+        <p class="proj-desc">Autonomous maze-solving robot for IIT BHU Technex. Flood-fill pathfinding, PID control, full hardware stack from sensor to motor driver.</p>
+        <div class="proj-tags">
+          <span class="ptag">C++</span><span class="ptag">Arduino</span><span class="ptag">Embedded</span><span class="ptag">IIT BHU</span>
+        </div>
+      </div>
+      <div class="proj-right">
+        <span class="proj-category cat-hardware">HARDWARE</span>
+        <i class="ti ti-arrow-right proj-arrow" aria-hidden="true"></i>
+      </div>
+    </a>
+
+    <a class="project-item" href="https://github.com/Apex-69nice" target="_blank" rel="noopener">
+      <div>
+        <p class="proj-num">05</p>
+        <p class="proj-title">OpenGate Camera App</p>
+        <p class="proj-desc">Open-source Android camera app with a film-look generator using Camera2 API for real-time cinematic color grading.</p>
+        <div class="proj-tags">
+          <span class="ptag">Kotlin</span><span class="ptag">Android</span><span class="ptag">Camera2 API</span><span class="ptag">Open Source</span>
+        </div>
+      </div>
+      <div class="proj-right">
+        <span class="proj-category cat-pm">PRODUCT</span>
+        <i class="ti ti-arrow-right proj-arrow" aria-hidden="true"></i>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<section class="skills" id="skills">
+  <p class="section-label">Skills</p>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <p class="skill-group-name">For PM roles</p>
+      <div class="skill-chips">
+        <span class="chip">User research</span><span class="chip">Workshop facilitation</span><span class="chip">Community building</span><span class="chip">GCP</span><span class="chip">AI/ML concepts</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-name">For marketing roles</p>
+      <div class="skill-chips">
+        <span class="chip">Event organizing</span><span class="chip">Peer mentorship</span><span class="chip">Growth strategy</span><span class="chip">Gemini API</span><span class="chip">Technical comms</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-name">Technical</p>
+      <div class="skill-chips">
+        <span class="chip">C/C++</span><span class="chip">JavaScript</span><span class="chip">Python</span><span class="chip">Kotlin</span><span class="chip">React.js</span><span class="chip">Arduino</span><span class="chip">ESP32</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-name">Tools</p>
+      <div class="skill-chips">
+        <span class="chip">Git</span><span class="chip">Linux</span><span class="chip">Neovim</span><span class="chip">VS Code</span><span class="chip">Cursor</span><span class="chip">Gemini AI</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="contact" id="contact">
+  <div class="contact-left">
+    <h2>Let's work together.</h2>
+    <p>Open to marketing, PM, comms, and dev internships.</p>
+  </div>
+  <div class="contact-links">
+    <a href="mailto:nikhil2412777@gmail.com" class="contact-link">
+      <i class="ti ti-mail" aria-hidden="true"></i>nikhil2412777@gmail.com
+    </a>
+    <a href="https://linkedin.com/in/nikhil-kumar" class="contact-link">
+      <i class="ti ti-brand-linkedin" aria-hidden="true"></i>linkedin.com/in/nikhil-kumar
+    </a>
+    <a href="https://github.com/Apex-69nice" class="contact-link">
+      <i class="ti ti-brand-github" aria-hidden="true"></i>github.com/Apex-69nice
+    </a>
+  </div>
+</footer>
+
+</body>
+</html>
