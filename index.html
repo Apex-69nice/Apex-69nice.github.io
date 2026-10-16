@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>nikhil kumar — portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{color-scheme:dark;--bg:#000;--fg:#f2f2f0;--mut:#8a8a85;--line:#262626;--card:#0a0a0a;--ac:#e31837;--knob:#141414;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -137,6 +138,8 @@ header .hr{display:flex;align-items:center;gap:14px}
 [data-look=terminal] .tb .cs.on{background:var(--c)}
 [data-look=terminal] .dock a:nth-child(4){background:#ff453a}
 [data-look=terminal] .lk.on{background:#fff}
+.tb .fs{font-size:15px;text-transform:none;padding:7px 11px}
+.ted{position:absolute;z-index:1;margin:0;padding:0;border:0;background:transparent;outline:1px dashed var(--ac);outline-offset:4px;resize:none;overflow:hidden;white-space:pre;text-transform:none;transform-origin:0 0;min-height:1em}
 /* TACTILITY: no tap delay, no grey tap flash, no text selection on controls (dial keeps touch-action:none) */
 .btn,.lk,.tg,.dock a,header nav a,.tb button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
 header nav a{display:inline-block}
@@ -149,14 +152,6 @@ header nav a{display:inline-block}
 .btn.ghost:active,.lk:active{border-color:var(--ac)}
 .btn.ghost:active{color:var(--ac)}
 .dock a:active,header nav a:active{filter:brightness(1.3)}
-/* ASCII hover overlay: absolute + pointer-events:none, so it can never shift layout or steal clicks. Exactly 1s fade + left-to-right wipe. */
-.card{position:relative;overflow:hidden}
-.asc{position:absolute;inset:0;margin:0;overflow:hidden;pointer-events:none;z-index:1;font:10px/10px ui-monospace,"SF Mono",Menlo,monospace;white-space:pre;color:var(--ac);opacity:0;clip-path:inset(0 100% 0 0);transition:opacity 1s linear,clip-path 1s cubic-bezier(.3,0,.2,1)}
-.card.hv .asc{opacity:.9;clip-path:inset(0 0 0 0)}
-/* the card's real elements dim over the same 1s while their ASCII mask wipes in */
-.card>:not(.asc){transition:opacity 1s linear}
-.card.hv>:not(.asc){opacity:.28}
-@media(prefers-reduced-motion:reduce){.asc{display:none}}
 </style>
 </head>
 <body>
@@ -169,7 +164,7 @@ header nav a{display:inline-block}
 </header>
 
 <div class="cv" id="cv" aria-hidden="true"><canvas id="cvc"></canvas>
-<div class="tb"><button data-t="hand">hand</button><button data-t="pen">pen</button><button data-t="rect">box</button><button data-t="ell">oval</button><button data-t="arrow">arrow</button><button data-t="eraser">erase</button><i class="sp"></i><button class="cs" data-c="0" style="--c:var(--fg)" aria-label="ink"></button><button class="cs" data-c="1" style="--c:#e31837" aria-label="red"></button><button class="cs" data-c="2" style="--c:#00d26a" aria-label="green"></button><button class="cs" data-c="3" style="--c:#00b8ff" aria-label="cyan"></button><button class="cs" data-c="4" style="--c:#ffb000" aria-label="amber"></button><i class="sp"></i><button id="cvu">undo</button><button id="cvx">clear</button><button id="zm">100%</button><button id="cvk" aria-label="close">✕</button></div>
+<div class="tb"><button data-t="hand">hand</button><button data-t="pen">pen</button><button data-t="rect">box</button><button data-t="ell">oval</button><button data-t="arrow">arrow</button><button data-t="text">text</button><button data-t="eraser">erase</button><i class="sp"></i><button class="fs" data-f="0" style="font-family:'Caveat','Segoe Print',cursive;font-size:17px" aria-label="handwritten font">Aa</button><button class="fs" data-f="1" style="font-family:'DM Sans',Arial,sans-serif" aria-label="sans font">Aa</button><button class="fs" data-f="2" style="font-family:'DM Mono',ui-monospace,monospace" aria-label="mono font">Aa</button><i class="sp"></i><button class="cs" data-c="0" style="--c:var(--fg)" aria-label="ink"></button><button class="cs" data-c="1" style="--c:#e31837" aria-label="red"></button><button class="cs" data-c="2" style="--c:#00d26a" aria-label="green"></button><button class="cs" data-c="3" style="--c:#00b8ff" aria-label="cyan"></button><button class="cs" data-c="4" style="--c:#ffb000" aria-label="amber"></button><i class="sp"></i><button id="cvu">undo</button><button id="cvx">clear</button><button id="zm">100%</button><button id="cvk" aria-label="close">✕</button></div>
 <div class="mono ht" id="ht">draw anywhere · pinch or ctrl+scroll to zoom · space or two fingers to pan</div></div>
 <main id="top">
   <div class="hero">
@@ -291,7 +286,7 @@ function kick(){if(!pr)pr=requestAnimationFrame(phys)}
 addEventListener("scroll",function(){var y=scrollY,d=y-ly;ly=y;var h=document.documentElement.scrollHeight-innerHeight;bar.style.transform="scaleX("+(h>0?y/h:0)+")";stage.style.translate="0 "+Math.min(y,900)*.1+"px";var cur=-1;secs.forEach(function(s,k){if(s.getBoundingClientRect().top<innerHeight*.5)cur=k});dls.forEach(function(a,k){a.classList.toggle("on",k===cur)});if(RM)return;if(!drag){quiet=true;/* DIAL vs SCROLL: each scroll delta is capped to 60px and scaled 0.0014 deg/ms per px (was 0.012, ~9x less), and scroll can only add speed below a 0.55 deg/ms (~1.5 rev/s) ceiling */var g=Math.max(-60,Math.min(60,d))*.0014;if(Math.abs(vel+g)<.55||Math.abs(vel+g)<Math.abs(vel))vel+=g;if(!raf)run()}},{passive:true});
 if(!RM){vel=1.2;run()}
 var lk=document.getElementById("lk"),R=document.documentElement;
-var cv=document.getElementById("cv"),cc=document.getElementById("cvc"),cx=cc.getContext("2d"),els=[],view={x:0,y:0,k:1},tool="pen",ci=0,PAL=["fg","#e31837","#00d26a","#00b8ff","#ffb000"],th={fg:"#fff",mut:"#888"},ptr={},np=0,cur=null,pan=null,gest=null,space=false,dirty=true,cvOpen=false,svT=0,gl=0,ct=0;
+var cv=document.getElementById("cv"),cc=document.getElementById("cvc"),cx=cc.getContext("2d"),els=[],view={x:0,y:0,k:1},tool="pen",ci=0,PAL=["fg","#e31837","#00d26a","#00b8ff","#ffb000"],th={fg:"#fff",mut:"#888"},ptr={},np=0,cur=null,pan=null,gest=null,space=false,dirty=true,cvOpen=false,svT=0,gl=0,ct=0,fi=0,ed=null,tpend=null,ta=null;
 function keep(fn){var y0=scrollY,el=document.elementFromPoint(innerWidth/2,Math.min(innerHeight*.4,420)),a=el&&el.closest(".card,.row,.sh,.roles,.cta,.hero h1,.hero p,.stage,section,footer"),t0=a?a.getBoundingClientRect().top:0;R.style.overflowAnchor="none";fn();var d=a?a.getBoundingClientRect().top-t0:0;R.style.scrollBehavior="auto";if(y0<4)scrollTo(0,0);else if(a){if(d)scrollBy(0,d)}else scrollTo(0,y0);R.style.scrollBehavior="";R.style.overflowAnchor=""}
 function theme(){var s=getComputedStyle(R);th.fg=s.getPropertyValue("--fg").trim()||"#fff";th.mut=s.getPropertyValue("--mut").trim()||"#888";inv()}
 function sz(){var d=Math.min(devicePixelRatio||1,2);cc.width=innerWidth*d;cc.height=innerHeight*d;inv()}
@@ -299,7 +294,16 @@ addEventListener("resize",sz);
 function W(e){return[(e.clientX-view.x)/view.k,(e.clientY-view.y)/view.k]}
 function col(c){return c===0?th.fg:PAL[c]}
 function rng(s){return function(){s|=0;s=s+1831565813|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
-function dr(el){cx.strokeStyle=col(el.c);cx.lineWidth=el.w;cx.lineCap=cx.lineJoin="round";cx.beginPath();
+/* TEXT TOOL: three fonts - 0 handwritten (Caveat), 1 sans (DM Sans), 2 mono (DM Mono); each has a size multiplier so they look the same height */
+var FONTS=[{f:'"Caveat","Segoe Print","Bradley Hand","Marker Felt",cursive',m:1.3},{f:'"DM Sans","Helvetica Neue",Arial,sans-serif',m:1},{f:'"DM Mono",ui-monospace,Menlo,Consolas,monospace',m:.95}],TS=22,LH=1.25;
+function fnt(el){return(TS*FONTS[el.fi].m)+"px "+FONTS[el.fi].f}
+function txt(el){cx.font=fnt(el);cx.fillStyle=col(el.c);cx.textBaseline="top";var lh=TS*FONTS[el.fi].m*LH;el.s.split("\n").forEach(function(l,i){cx.fillText(l,el.x,el.y+i*lh)})}
+function tb(el){cx.font=fnt(el);var L=el.s.split("\n"),w=0;L.forEach(function(l){w=Math.max(w,cx.measureText(l).width)});return{x:el.x,y:el.y,w:w,h:L.length*TS*FONTS[el.fi].m*LH}}
+/* live editor: a real <textarea> placed over the canvas at the tapped spot. Font is kept >=16px (stops iOS zoom-on-focus) and scaled with transform to match the canvas zoom. */
+function edStyle(){var z=view.k,s=TS*FONTS[ed.fi].m*z,fs=Math.max(s,16);ta.style.left=(view.x+ed.x*z)+"px";ta.style.top=(view.y+ed.y*z)+"px";ta.style.font=fs+"px/"+LH+" "+FONTS[ed.fi].f;ta.style.color=col(ed.c);ta.style.caretColor=col(ed.c);ta.style.transform="scale("+(s/fs)+")";ta.style.height="auto";ta.style.height=ta.scrollHeight+"px";ta.style.width="1px";ta.style.width=Math.max(ta.scrollWidth+6,fs*2)+"px"}
+function openEd(w){endEd(true);ta=document.createElement("textarea");ta.className="ted";ta.rows=1;ta.spellcheck=false;ta.setAttribute("autocapitalize","off");ed={x:w[0],y:w[1],fi:fi,c:ci};cv.appendChild(ta);edStyle();ta.addEventListener("input",edStyle);ta.addEventListener("blur",function(){endEd(true)});ta.addEventListener("keydown",function(e){e.stopPropagation();if(e.key==="Escape"||(e.key==="Enter"&&(e.ctrlKey||e.metaKey))){e.preventDefault();endEd(true)}});ta.focus({preventScroll:true})}
+function endEd(ok){if(!ed)return;var t=ta,d=ed,v=t.value.replace(/\s+$/,"");ed=null;ta=null;if(ok&&v){els.push({t:"text",x:d.x,y:d.y,s:v,fi:d.fi,c:d.c,w:1});buzz(8)}t.remove();inv();save()}
+function dr(el){if(el.t==="text"){txt(el);return}cx.strokeStyle=col(el.c);cx.lineWidth=el.w;cx.lineCap=cx.lineJoin="round";cx.beginPath();
 if(el.t==="pen"){var p=el.p;cx.moveTo(p[0][0],p[0][1]);if(p.length<3)cx.lineTo(p[p.length-1][0]+.1,p[p.length-1][1]);else{for(var i=1;i<p.length-1;i++)cx.quadraticCurveTo(p[i][0],p[i][1],(p[i][0]+p[i+1][0])/2,(p[i][1]+p[i+1][1])/2);cx.lineTo(p[p.length-1][0],p[p.length-1][1])}}
 else{var r=rng(el.s),a=el.a,b=el.b,amp=Math.min(1,Math.max(Math.abs(b[0]-a[0]),Math.abs(b[1]-a[1]))/60)*3,j=function(){return(r()-.5)*amp};
 if(el.t==="rect"){for(var n=0;n<2;n++){var P=[[a[0],a[1]],[b[0],a[1]],[b[0],b[1]],[a[0],b[1]],[a[0],a[1]]];cx.moveTo(P[0][0]+j(),P[0][1]+j());for(var i=1;i<5;i++)cx.quadraticCurveTo((P[i-1][0]+P[i][0])/2+j(),(P[i-1][1]+P[i][1])/2+j(),P[i][0]+j(),P[i][1]+j())}}
@@ -308,42 +312,43 @@ else{var L=Math.hypot(b[0]-a[0],b[1]-a[1]),g=Math.atan2(b[1]-a[1],b[0]-a[0]),h=M
 cx.stroke()}
 function draw(){if(!dirty)return;dirty=false;var d=cc.width/innerWidth;cx.setTransform(d,0,0,d,0,0);cx.clearRect(0,0,innerWidth,innerHeight);var sp=24*view.k;while(sp<12)sp*=2;var ox=((view.x%sp)+sp)%sp,oy=((view.y%sp)+sp)%sp;cx.fillStyle=th.mut;cx.globalAlpha=.35;for(var x=ox;x<innerWidth;x+=sp)for(var y=oy;y<innerHeight;y+=sp)cx.fillRect(x-.75,y-.75,1.5,1.5);cx.globalAlpha=1;cx.setTransform(d*view.k,0,0,d*view.k,d*view.x,d*view.y);els.forEach(dr);if(cur)dr(cur);document.getElementById("zm").textContent=Math.round(view.k*100)+"%"}
 function inv(){dirty=true;requestAnimationFrame(draw)}
-function save(){clearTimeout(svT);svT=setTimeout(function(){try{localStorage.setItem("cvdata",JSON.stringify({e:els,v:view,o:cvOpen,t:tool,c:ci}))}catch(x){}},250)}
+function save(){clearTimeout(svT);svT=setTimeout(function(){try{localStorage.setItem("cvdata",JSON.stringify({e:els,v:view,o:cvOpen,t:tool,c:ci,f:fi}))}catch(x){}},250)}
 function sg(p,a,b){var vx=b[0]-a[0],vy=b[1]-a[1],t=Math.max(0,Math.min(1,((p[0]-a[0])*vx+(p[1]-a[1])*vy)/(vx*vx+vy*vy||1)));return Math.hypot(p[0]-a[0]-t*vx,p[1]-a[1]-t*vy)}
-function hit(el,w){var r=10/view.k;if(el.t==="pen")return el.p.some(function(q,i){return i&&sg(w,el.p[i-1],q)<r||Math.hypot(w[0]-q[0],w[1]-q[1])<r});var a=el.a,b=el.b;if(el.t==="arrow")return sg(w,a,b)<r;if(el.t==="rect"){var P=[[a[0],a[1]],[b[0],a[1]],[b[0],b[1]],[a[0],b[1]],[a[0],a[1]]];return P.some(function(q,i){return i&&sg(w,P[i-1],q)<r})}var ex=(a[0]+b[0])/2,ey=(a[1]+b[1])/2,rx=Math.abs(b[0]-a[0])/2||1,ry=Math.abs(b[1]-a[1])/2||1,u=Math.hypot((w[0]-ex)/rx,(w[1]-ey)/ry);return Math.abs(u-1)*Math.min(rx,ry)<r}
+function hit(el,w){var r=10/view.k;if(el.t==="text"){var b=tb(el);return w[0]>=b.x-r&&w[0]<=b.x+b.w+r&&w[1]>=b.y-r&&w[1]<=b.y+b.h+r}if(el.t==="pen")return el.p.some(function(q,i){return i&&sg(w,el.p[i-1],q)<r||Math.hypot(w[0]-q[0],w[1]-q[1])<r});var a=el.a,b=el.b;if(el.t==="arrow")return sg(w,a,b)<r;if(el.t==="rect"){var P=[[a[0],a[1]],[b[0],a[1]],[b[0],b[1]],[a[0],b[1]],[a[0],a[1]]];return P.some(function(q,i){return i&&sg(w,P[i-1],q)<r})}var ex=(a[0]+b[0])/2,ey=(a[1]+b[1])/2,rx=Math.abs(b[0]-a[0])/2||1,ry=Math.abs(b[1]-a[1])/2||1,u=Math.hypot((w[0]-ex)/rx,(w[1]-ey)/ry);return Math.abs(u-1)*Math.min(rx,ry)<r}
 function erase(w){for(var i=els.length-1;i>=0;i--)if(hit(els[i],w)){els.splice(i,1);buzz(7);inv();save();break}}
 function glide(vx,vy){cancelAnimationFrame(gl);var t=performance.now();(function f(n){var dt=Math.min(32,n-t);t=n;view.x+=vx*dt;view.y+=vy*dt;vx*=Math.exp(-dt/260);vy*=Math.exp(-dt/260);inv();if(Math.hypot(vx,vy)>.02)gl=requestAnimationFrame(f);else save()})(t)}
 function stopGlide(){cancelAnimationFrame(gl)}
-function down(e){e.preventDefault();stopGlide();document.getElementById("ht").style.opacity=0;try{cc.setPointerCapture(e.pointerId)}catch(x){}ptr[e.pointerId]=[e.clientX,e.clientY];np=Object.keys(ptr).length;
-if(np===2){cur=null;pan=null;var k=Object.keys(ptr),p=ptr[k[0]],q=ptr[k[1]];gest={d:Math.hypot(p[0]-q[0],p[1]-q[1])||1,cx:(p[0]+q[0])/2,cy:(p[1]+q[1])/2,v:{x:view.x,y:view.y,k:view.k}};return}
+function down(e){e.preventDefault();stopGlide();if(ed)endEd(true);document.getElementById("ht").style.opacity=0;try{cc.setPointerCapture(e.pointerId)}catch(x){}ptr[e.pointerId]=[e.clientX,e.clientY];np=Object.keys(ptr).length;
+if(np===2){cur=null;pan=null;tpend=null;var k=Object.keys(ptr),p=ptr[k[0]],q=ptr[k[1]];gest={d:Math.hypot(p[0]-q[0],p[1]-q[1])||1,cx:(p[0]+q[0])/2,cy:(p[1]+q[1])/2,v:{x:view.x,y:view.y,k:view.k}};return}
 if(np>2)return;
 if(tool==="hand"||e.button===1||space){pan={x:e.clientX,y:e.clientY,vx:0,vy:0,t:e.timeStamp};return}
-var w=W(e);if(tool==="eraser"){erase(w);return}
+var w=W(e);if(tool==="text"){tpend=w;return}if(tool==="eraser"){erase(w);return}
 var s=Math.random()*1e9|0;cur=tool==="pen"?{t:"pen",p:[w],c:ci,w:2.4,s:s}:{t:tool,a:w,b:w,c:ci,w:2.4,s:s};inv()}
 function move(e){if(!ptr[e.pointerId])return;ptr[e.pointerId]=[e.clientX,e.clientY];
 if(gest){if(np===2){var k=Object.keys(ptr),p=ptr[k[0]],q=ptr[k[1]],d=Math.hypot(p[0]-q[0],p[1]-q[1]),mx=(p[0]+q[0])/2,my=(p[1]+q[1])/2,nk=Math.max(.1,Math.min(8,gest.v.k*d/gest.d)),wx=(gest.cx-gest.v.x)/gest.v.k,wy=(gest.cy-gest.v.y)/gest.v.k;view.k=nk;view.x=mx-wx*nk;view.y=my-wy*nk;inv()}return}
 if(pan){var dx=e.clientX-pan.x,dy=e.clientY-pan.y,dt=Math.max(1,e.timeStamp-pan.t);view.x+=dx;view.y+=dy;pan.vx=pan.vx*.6+dx/dt*.4;pan.vy=pan.vy*.6+dy/dt*.4;pan.x=e.clientX;pan.y=e.clientY;pan.t=e.timeStamp;inv();return}
 if(tool==="eraser"){erase(W(e));return}
 if(cur){var w=W(e);if(cur.t==="pen"){var l=cur.p[cur.p.length-1];if(Math.hypot(w[0]-l[0],w[1]-l[1])*view.k>2)cur.p.push(w)}else cur.b=w;inv()}}
-function up(e){if(!ptr[e.pointerId])return;delete ptr[e.pointerId];np=Object.keys(ptr).length;if(np===0){gest=null;if(pan){glide(pan.vx,pan.vy);pan=null}if(cur){if(cur.t==="pen"||Math.hypot(cur.b[0]-cur.a[0],cur.b[1]-cur.a[1])>2)els.push(cur);cur=null;inv()}save()}}
+function up(e){if(!ptr[e.pointerId])return;delete ptr[e.pointerId];np=Object.keys(ptr).length;if(np===0){var tp=gest?null:tpend;tpend=null;gest=null;if(tp)openEd(tp);if(pan){glide(pan.vx,pan.vy);pan=null}if(cur){if(cur.t==="pen"||Math.hypot(cur.b[0]-cur.a[0],cur.b[1]-cur.a[1])>2)els.push(cur);cur=null;inv()}save()}}
 cc.addEventListener("pointerdown",down);cc.addEventListener("pointermove",move);["pointerup","pointercancel"].forEach(function(n){cc.addEventListener(n,up)});cc.oncontextmenu=function(e){e.preventDefault()};
 cc.addEventListener("wheel",function(e){e.preventDefault();stopGlide();if(e.ctrlKey||e.metaKey){var nk=Math.max(.1,Math.min(8,view.k*Math.exp(-e.deltaY*.01))),wx=(e.clientX-view.x)/view.k,wy=(e.clientY-view.y)/view.k;view.k=nk;view.x=e.clientX-wx*nk;view.y=e.clientY-wy*nk}else{view.x-=e.deltaX;view.y-=e.deltaY}inv();save()},{passive:false});
 cv.addEventListener("wheel",function(e){e.preventDefault()},{passive:false});
-function setTool(t){tool=t;[].forEach.call(document.querySelectorAll(".tb [data-t]"),function(b){b.classList.toggle("on",b.dataset.t===t)});cc.style.cursor=t==="hand"?"grab":t==="eraser"?"cell":"crosshair";save()}
+function setTool(t){tool=t;[].forEach.call(document.querySelectorAll(".tb [data-t]"),function(b){b.classList.toggle("on",b.dataset.t===t)});cc.style.cursor=t==="hand"?"grab":t==="eraser"?"cell":t==="text"?"text":"crosshair";save()}
 function setCol(i){ci=i;[].forEach.call(document.querySelectorAll(".tb [data-c]"),function(b){b.classList.toggle("on",+b.dataset.c===i)});save()}
+function setFont(i){fi=i;[].forEach.call(document.querySelectorAll(".tb [data-f]"),function(b){b.classList.toggle("on",+b.dataset.f===i)});if(ed){ed.fi=i;edStyle()}save()}
 function undo(){if(els.length){els.pop();inv();save();buzz(10)}}
 function tog(o,silent){if(o===undefined)o=!cvOpen;cvOpen=o;cv.classList.toggle("open",o);cv.setAttribute("aria-hidden",!o);document.getElementById("cvb").classList.toggle("on",o);if(o){document.getElementById("ht").style.opacity=1;theme();if(!silent){quiet=false;audio();click(true);buzz(0,[12,20,8])}}save()}
-document.querySelector(".tb").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;if(b.dataset.t){setTool(b.dataset.t)}else if(b.dataset.c!==undefined){setCol(+b.dataset.c)}else return;quiet=false;buzz(8);click(false)});
+document.querySelector(".tb").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;if(b.dataset.t){setTool(b.dataset.t)}else if(b.dataset.c!==undefined){setCol(+b.dataset.c)}else if(b.dataset.f!==undefined){setFont(+b.dataset.f)}else return;quiet=false;buzz(8);click(false)});
 document.getElementById("cvu").onclick=undo;
 document.getElementById("cvk").onclick=function(){tog(false)};
 document.getElementById("cvb").onclick=function(){tog()};
 document.getElementById("cvd").onclick=function(e){e.preventDefault();tog()};
 document.getElementById("cvx").onclick=function(){var b=this;if(ct){els=[];ct=0;b.textContent="clear";inv();save();buzz(0,[20,30,10])}else{ct=1;b.textContent="sure?";setTimeout(function(){ct=0;b.textContent="clear"},2000)}};
 document.getElementById("zm").onclick=function(){stopGlide();(function f(){view.x*=.8;view.y*=.8;view.k+=(1-view.k)*.2;inv();if(Math.abs(view.x)+Math.abs(view.y)+Math.abs(view.k-1)>.05)gl=requestAnimationFrame(f);else{view.x=view.y=0;view.k=1;inv();save()}})()};
-addEventListener("keydown",function(e){if(!cvOpen)return;var k=e.key.toLowerCase();if(k==="escape"){tog(false);return}if(k===" "){space=true;e.preventDefault();return}if(e.ctrlKey||e.metaKey){if(k==="z"){e.preventDefault();undo()}return}var m={h:"hand",p:"pen",r:"rect",o:"ell",a:"arrow",e:"eraser"};if(m[k])setTool(m[k])});
+addEventListener("keydown",function(e){if(!cvOpen||ed)return;var k=e.key.toLowerCase();if(k==="escape"){tog(false);return}if(k===" "){space=true;e.preventDefault();return}if(e.ctrlKey||e.metaKey){if(k==="z"){e.preventDefault();undo()}return}var m={h:"hand",p:"pen",r:"rect",o:"ell",a:"arrow",t:"text",e:"eraser"};if(m[k])setTool(m[k])});
 addEventListener("keyup",function(e){if(e.key===" ")space=false});
-try{var s0=JSON.parse(localStorage.getItem("cvdata")||"null");if(s0){els=s0.e||[];view=s0.v||view;tool=s0.t||tool;ci=s0.c||0;if(s0.o)setTimeout(function(){tog(true,true)},900)}}catch(x){}
-sz();setTool(tool);setCol(ci);
+try{var s0=JSON.parse(localStorage.getItem("cvdata")||"null");if(s0){els=s0.e||[];view=s0.v||view;tool=s0.t||tool;ci=s0.c||0;fi=s0.f||0;if(s0.o)setTimeout(function(){tog(true,true)},900)}}catch(x){}
+sz();setTool(tool);setCol(ci);setFont(fi);["22px Caveat","22px 'DM Sans'","22px 'DM Mono'"].forEach(function(f){if(document.fonts)document.fonts.load(f)});if(document.fonts&&document.fonts.addEventListener)document.fonts.addEventListener("loadingdone",inv);
 /* SCROLL-TO-END FIX: the target is re-measured EVERY frame (scrollHeight, header height, reveals, fonts, late layout) and clamped to the live max scroll, and the glide keeps checking ~8 frames after arrival, so it can never stop short. Any wheel/touch/key press cancels it. */
 function maxY(){return Math.max(0,R.scrollHeight-R.clientHeight)}
 var goRaf=0;
@@ -353,11 +358,6 @@ window.scrollToBottom=function(){goTo(maxY)};
 /* iOS only shows :active if a touchstart listener exists; also a 6ms haptic tick the instant any control is pressed */
 document.addEventListener("touchstart",function(){},{passive:true});
 document.addEventListener("pointerdown",function(e){if(e.target.closest&&e.target.closest(".btn,.lk,.tg,.dock a,header nav a,.tb button")){quiet=false;buzz(6)}},{passive:true});
-/* ASCII hover: a plasma of . : - = + * # % @ painted at ~30fps ONLY while hovered (+1s fade-out); CSS handles the exact 1s transition */
-/* ASCII MASK: samples the card's own geometry (border, title/description text lines, tags, art box and each svg shape) onto a character grid, so ASCII only appears ON those elements, in their shape */
-var CW=0;
-function mkMask(c){if(!CW){var p=document.createElement("span");p.style.cssText="position:absolute;visibility:hidden;white-space:pre;font:10px/10px ui-monospace,'SF Mono',Menlo,monospace";p.textContent="0000000000";document.body.appendChild(p);CW=p.offsetWidth/10||6;p.remove()}var cr=c.getBoundingClientRect(),ox=cr.left+c.clientLeft,oy=cr.top+c.clientTop,cols=Math.ceil(c.clientWidth/CW)+1,rows=Math.ceil(c.clientHeight/10)+1,m=new Uint8Array(cols*rows);function box(x0,y0,x1,y1,mode){var a=Math.max(0,Math.floor(x0/CW)),b=Math.min(cols-1,Math.floor((x1-.01)/CW)),r0=Math.max(0,Math.floor(y0/10)),r1=Math.min(rows-1,Math.floor((y1-.01)/10));for(var r=r0;r<=r1;r++)for(var q=a;q<=b;q++){if(mode===1&&r!==r0&&r!==r1&&q!==a&&q!==b)continue;if(mode===2){var ex=((q+.5)*CW-(x0+x1)/2)/((x1-x0)/2||1),ey=((r+.5)*10-(y0+y1)/2)/((y1-y0)/2||1);if(ex*ex+ey*ey>1)continue}m[r*cols+q]=1}}function rc(el,mode){var r=el.getBoundingClientRect();box(r.left-ox,r.top-oy,r.right-ox,r.bottom-oy,mode)}box(0,0,c.clientWidth,c.clientHeight,1);[].forEach.call(c.querySelectorAll("h3,p"),function(el){var g=document.createRange();g.selectNodeContents(el);[].forEach.call(g.getClientRects(),function(r){box(r.left-ox,r.top-oy,r.right-ox,r.bottom-oy,0)})});[].forEach.call(c.querySelectorAll(".tags span"),function(el){rc(el,0)});[].forEach.call(c.querySelectorAll(".art"),function(el){rc(el,1)});[].forEach.call(c.querySelectorAll(".art svg *,.art .bot,.art .line"),function(el){var t=el.tagName.toLowerCase();if(t==="circle"||t==="ellipse")rc(el,2);else if(t==="rect"&&getComputedStyle(el).fill==="none")rc(el,1);else rc(el,0)});return{m:m,cols:cols,rows:rows}}
-cards.forEach(function(c){var pre=document.createElement("pre");pre.className="asc";pre.setAttribute("aria-hidden","true");c.appendChild(pre);var on=false,r2=0,cols=0,rows=0,mask=[],t0=0,off=0,last=0,tmo=0,C=" .:-=+*#%@";function paint(now){if(now-last>=33){last=now;var t=(now-t0)/1000,s="";for(var y=0;y<rows;y++){for(var x=0;x<cols;x++){var v=(Math.sin(x*.19+t*3)+Math.sin(y*.33-t*2.2)+Math.sin((x+y)*.11+t*1.4)+3)/6;s+=mask[y*cols+x]?C[Math.min(9,3+(v*7|0))]:" "}s+="\n"}pre.textContent=s}if(on||now<off)r2=requestAnimationFrame(paint);else r2=0}function hv(v){if(v===on||RM)return;on=v;if(v){var mk=mkMask(c);mask=mk.m;cols=mk.cols;rows=mk.rows;t0=performance.now();c.classList.add("hv");if(!r2)r2=requestAnimationFrame(paint)}else{c.classList.remove("hv");off=performance.now()+1000}}c.addEventListener("pointerenter",function(e){if(e.pointerType==="mouse")hv(true)});c.addEventListener("pointerleave",function(){hv(false)});c.addEventListener("pointerdown",function(e){if(e.pointerType!=="mouse"){hv(true);clearTimeout(tmo);tmo=setTimeout(function(){hv(false)},1400)}})});
 function look(v,anim){if(anim){R.classList.add("sw");setTimeout(function(){R.classList.remove("sw")},500)}if(v==="terminal")R.setAttribute("data-look","terminal");else R.removeAttribute("data-look");lk.textContent="look · "+(v==="terminal"?"terminal":"te");theme();try{localStorage.setItem("look",v)}catch(x){}}
 var sv="te";try{sv=localStorage.getItem("look")||"te"}catch(x){}
 look(sv,false);
