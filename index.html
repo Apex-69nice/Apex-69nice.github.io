@@ -54,10 +54,10 @@ section{padding:72px 0;border-top:1px solid var(--line)}
 footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:22px 0 30px;border-top:1px solid var(--line)}
 footer a:hover{color:var(--ac)}
 .line{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--fg)}
-.bot{width:46px;height:30px;background:var(--fg);border-radius:4px;position:absolute;animation:run 3.2s ease-in-out infinite alternate}
-@keyframes run{from{left:12%;top:30%}to{left:70%;top:60%}}
+.bot{width:46px;height:30px;background:var(--fg);border-radius:4px;position:absolute;left:50%;top:50%;translate:-50% -50%}
+/* wiggle removed: the looping 'run' keyframes on the line-follower card are deleted; the bot now sits still on the line */
 :root{--sp:cubic-bezier(.2,1.25,.3,1)}
-html{overflow-x:clip;-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%}
 body{overflow-x:clip}
 .logo{text-transform:none;letter-spacing:-.02em;font-size:16px}
 .hero{min-height:calc(100svh - 64px)}
@@ -83,17 +83,94 @@ body{overflow-x:clip}
 @media(max-width:800px){.hero{grid-template-columns:1fr;gap:28px;padding:28px 0 48px;text-align:center}.hero p{margin-inline:auto}.hero .btn:first-of-type{margin-left:4px}.hero h1{font-size:clamp(40px,12vw,72px)}.grid{grid-template-columns:1fr}.roles{grid-template-columns:1fr 1fr}.card{min-height:300px}}
 @media(max-width:640px){header{padding:12px 18px}header nav{display:none}main{padding:0 18px 92px}section{padding:56px 0}.cta{padding:72px 0 48px}.row{flex-direction:column;gap:2px}.row span:last-child{text-align:left}.roles div{font-size:17px}footer{justify-content:center;text-align:center}.dock{display:flex;position:fixed;left:50%;translate:-50% 0;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:20;gap:2px;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:5px}.dock a{padding:9px 18px;border-radius:99px;transition:background .3s,color .3s}.dock a.on{background:var(--ac);color:#fff}}
 @media(prefers-reduced-motion:reduce){.ln>span{translate:0 0;animation:none}.hero .mono,.hero p,.hero .btn,.stage{animation:none}}
+.lk{font:11px/1 ui-monospace,"SF Mono",Menlo,monospace;letter-spacing:.04em;background:none;color:var(--fg);border:1px solid var(--line);border-radius:99px;padding:8px 14px;text-transform:lowercase;cursor:pointer;transition:transform .3s var(--sp)}
+.lk:active{transform:scale(.92)}
+header .hr{display:flex;align-items:center;gap:14px}
+.sw *{transition:background-color .45s,color .45s,border-color .45s,border-radius .45s!important}
+@media(max-width:640px){.st{display:none}}
+[data-look=terminal]{--bg:#000;--fg:#ffb000;--mut:#b87a00;--line:#3d2b00;--card:#0a0700;--knob:#150f00}
+[data-look=terminal] body{font-family:ui-monospace,"SF Mono",Menlo,Consolas,"Roboto Mono",monospace;text-transform:uppercase}
+[data-look=terminal] .logo{text-transform:uppercase;font-weight:700}
+[data-look=terminal] .hero h1{font-size:clamp(28px,5.6vw,76px);letter-spacing:-.05em}
+[data-look=terminal] header nav a,[data-look=terminal] .dock a{color:#000;font-weight:700;padding:6px 14px;border-radius:0}
+[data-look=terminal] header nav a:nth-child(1),[data-look=terminal] .dock a:nth-child(1){background:#ffb000}
+[data-look=terminal] header nav a:nth-child(2),[data-look=terminal] .dock a:nth-child(2){background:#00d26a}
+[data-look=terminal] header nav a:nth-child(3),[data-look=terminal] .dock a:nth-child(3){background:#00b8ff}
+[data-look=terminal] header nav a:hover{color:#000;filter:brightness(1.25)}
+[data-look=terminal] .dock{border-radius:0;border-color:#ffb000;padding:4px;gap:4px}
+[data-look=terminal] .dock a.on{box-shadow:inset 0 0 0 3px #000,0 0 0 2px #fff;color:#000}
+[data-look=terminal] .sh span{padding:3px 10px;color:#000;font-weight:700}
+[data-look=terminal] .sh span:first-child{background:#ffb000}
+[data-look=terminal] .sh span:last-child{background:#00d26a}
+[data-look=terminal] .card{border:1px solid #ffb000;background:#070500;border-radius:0}
+[data-look=terminal] .card h3,[data-look=terminal] .cta h2{color:#fff}
+[data-look=terminal] .art{border-color:#3d2b00}
+[data-look=terminal] .tags span{border:0;border-radius:0;color:#000;font-weight:700}
+[data-look=terminal] .tags span:nth-child(1){background:#ffb000}
+[data-look=terminal] .tags span:nth-child(2){background:#00b8ff}
+[data-look=terminal] .roles div{border:0;padding:14px;color:#000;font-weight:700}
+[data-look=terminal] .roles div:nth-child(1){background:#ffb000}
+[data-look=terminal] .roles div:nth-child(2){background:#00d26a}
+[data-look=terminal] .roles div:nth-child(3){background:#00b8ff}
+[data-look=terminal] .roles div:nth-child(4){background:#ff453a}
+[data-look=terminal] .row span:last-child{color:#00d26a}
+[data-look=terminal] .btn,[data-look=terminal] .lk{border-radius:0}
+[data-look=terminal] .lk{background:#ffb000;color:#000;font-weight:700;border-color:#ffb000}
+[data-look=terminal] .dot{background:#00d26a}
+@media(max-width:800px){[data-look=terminal] .hero h1{font-size:clamp(26px,8.2vw,56px)}}
+.cv{position:fixed;inset:0;z-index:30;background:var(--bg);visibility:hidden;opacity:0;scale:.96;touch-action:none;overscroll-behavior:contain;transition:opacity .3s,scale .55s var(--sp),visibility 0s .55s}
+.cv.open{visibility:visible;opacity:1;scale:1;transition-delay:0s}
+#cvc{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:crosshair}
+.tb{position:absolute;left:50%;translate:-50% 0;top:calc(12px + env(safe-area-inset-top,0px));display:flex;flex-wrap:wrap;gap:4px;justify-content:center;align-items:center;max-width:94vw;padding:5px;background:var(--card);border:1px solid var(--line);border-radius:14px;z-index:2}
+.tb button{font:11px/1 ui-monospace,"SF Mono",Menlo,monospace;text-transform:lowercase;background:none;color:var(--fg);border:0;border-radius:9px;padding:9px 11px;cursor:pointer;transition:transform .25s var(--sp),background .2s,color .2s}
+.tb button:active{transform:scale(.88)}
+.tb button.on{background:var(--fg);color:var(--bg)}
+.tb .cs{width:24px;height:24px;padding:0;border-radius:50%;background:var(--c);border:2px solid transparent}
+.tb .cs.on{background:var(--c);border-color:var(--fg);box-shadow:0 0 0 2px var(--card) inset}
+.tb .sp{width:1px;height:18px;background:var(--line);margin:0 3px}
+.ht{position:absolute;left:50%;translate:-50% 0;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:max-content;max-width:90vw;text-align:center;pointer-events:none;transition:opacity .6s}
+.lk.on{background:var(--fg);color:var(--bg)}
+@media(max-width:640px){#cvb{display:none}.dock a{padding:9px 14px}}
+[data-look=terminal] .tb{border-radius:0;border-color:#ffb000}
+[data-look=terminal] .tb button{border-radius:0}
+[data-look=terminal] .tb button.on{background:#ffb000;color:#000}
+[data-look=terminal] .tb .cs.on{background:var(--c)}
+[data-look=terminal] .dock a:nth-child(4){background:#ff453a}
+[data-look=terminal] .lk.on{background:#fff}
+/* TACTILITY: no tap delay, no grey tap flash, no text selection on controls (dial keeps touch-action:none) */
+.btn,.lk,.tg,.dock a,header nav a,.tb button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+header nav a{display:inline-block}
+/* colour/border states flip in 60ms (feels instant); only the scale uses the springy 280ms release */
+.btn,.lk,.tg,.dock a,header nav a,.tb button{transition:transform .28s var(--sp),background-color .06s,color .06s,border-color .06s,filter .06s}
+/* press = near-instant 30ms squash to .97, then springs back on release */
+.btn:active,.lk:active,.tg:active,.dock a:active,header nav a:active,.tb button:active{transform:scale(.97);transition-duration:.03s}
+.tb .cs:active{transform:scale(.86)}
+.btn:active{filter:brightness(.86)}
+.btn.ghost:active,.lk:active{border-color:var(--ac)}
+.btn.ghost:active{color:var(--ac)}
+.dock a:active,header nav a:active{filter:brightness(1.3)}
+/* ASCII hover overlay: absolute + pointer-events:none, so it can never shift layout or steal clicks. Exactly 1s fade + left-to-right wipe. */
+.card{position:relative;overflow:hidden}
+.asc{position:absolute;inset:0;margin:0;overflow:hidden;pointer-events:none;z-index:1;font:10px/10px ui-monospace,"SF Mono",Menlo,monospace;white-space:pre;color:var(--ac);opacity:0;clip-path:inset(0 100% 0 0);transition:opacity 1s linear,clip-path 1s cubic-bezier(.3,0,.2,1)}
+.card.hv .asc{opacity:.9;clip-path:inset(0 0 0 0)}
+/* the card's real elements dim over the same 1s while their ASCII mask wipes in */
+.card>:not(.asc){transition:opacity 1s linear}
+.card.hv>:not(.asc){opacity:.28}
+@media(prefers-reduced-motion:reduce){.asc{display:none}}
 </style>
 </head>
 <body>
 <div id="bar"></div>
-<nav class="dock"><a href="#work">work</a><a href="#specs">specs</a><a href="#contact">contact</a></nav>
+<nav class="dock"><a href="#work">work</a><a href="#specs">specs</a><a href="#contact">contact</a><a href="#canvas" id="cvd">canvas</a></nav>
 <header>
   <a href="#top" class="logo"><b>Apexcorp</b></a>
   <nav><a href="#work">work</a><a href="#specs">specs</a><a href="#contact">contact</a></nav>
-  <span class="mono"><i class="dot"></i>open to internships</span>
+  <span class="hr"><button class="lk" id="cvb">canvas</button><button class="lk" id="lk" aria-label="swap look">look · te</button><span class="mono st"><i class="dot"></i>open to internships</span></span>
 </header>
 
+<div class="cv" id="cv" aria-hidden="true"><canvas id="cvc"></canvas>
+<div class="tb"><button data-t="hand">hand</button><button data-t="pen">pen</button><button data-t="rect">box</button><button data-t="ell">oval</button><button data-t="arrow">arrow</button><button data-t="eraser">erase</button><i class="sp"></i><button class="cs" data-c="0" style="--c:var(--fg)" aria-label="ink"></button><button class="cs" data-c="1" style="--c:#e31837" aria-label="red"></button><button class="cs" data-c="2" style="--c:#00d26a" aria-label="green"></button><button class="cs" data-c="3" style="--c:#00b8ff" aria-label="cyan"></button><button class="cs" data-c="4" style="--c:#ffb000" aria-label="amber"></button><i class="sp"></i><button id="cvu">undo</button><button id="cvx">clear</button><button id="zm">100%</button><button id="cvk" aria-label="close">✕</button></div>
+<div class="mono ht" id="ht">draw anywhere · pinch or ctrl+scroll to zoom · space or two fingers to pan</div></div>
 <main id="top">
   <div class="hero">
     <div>
@@ -186,33 +263,105 @@ function pad(n){return n<0?"-"+pad(-n):(n<10?"0":"")+n}
 var kn=document.createElementNS(NS,"g");kn.setAttribute("stroke","var(--mut)");kn.setAttribute("stroke-opacity",".55");kn.setAttribute("stroke-width","2");
 for(var q=0;q<90;q++){var b=q*4*Math.PI/180,e=document.createElementNS(NS,"line");e.setAttribute("x1",200+Math.sin(b)*109);e.setAttribute("y1",200-Math.cos(b)*109);e.setAttribute("x2",200+Math.sin(b)*118);e.setAttribute("y2",200-Math.cos(b)*118);kn.appendChild(e)}
 rot.appendChild(kn);
-var sw=document.createElement("label");sw.style.cssText="position:absolute;left:-9999px;opacity:0;pointer-events:none";sw.innerHTML='<input type="checkbox" switch>';document.body.appendChild(sw);
+var sw=document.createElement("label");sw.style.cssText="position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none";/* SCROLL-JUMP FIX: this iOS-haptic switch used to be position:absolute at the END of <body>, so every buzz (look toggle, dial notch, tools) focused it and the browser scrolled to the page bottom. Fixed-position + tabindex=-1 cannot move the page. */sw.innerHTML='<input type="checkbox" switch tabindex="-1" aria-hidden="true">';document.body.appendChild(sw);
 function buzz(ms,pat){if(!haptics||quiet)return;var n=performance.now();if(!pat&&n-lastBuzz<16)return;lastBuzz=n;if(navigator.vibrate)navigator.vibrate(pat||ms);try{sw.click()}catch(x){}}
 function audio(){if(ac)return;try{ac=new(window.AudioContext||window.webkitAudioContext)();var n=ac.sampleRate*.02|0;nb=ac.createBuffer(1,n,ac.sampleRate);var d=nb.getChannelData(0);for(var j=0;j<n;j++)d[j]=(Math.random()*2-1)*Math.exp(-j/(n*.12))}catch(x){}}
 function click(major){if(!sound||!ac||quiet)return;var n=performance.now();if(n-lastSnd<11)return;lastSnd=n;if(ac.state==="suspended")ac.resume();var s=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();s.buffer=nb;s.playbackRate.value=major?.7:.95+Math.random()*.15;f.type="bandpass";f.frequency.value=major?1500:3200;f.Q.value=major?2:4;g.gain.value=major?1.1:.55;s.connect(f);f.connect(g);g.connect(ac.destination);s.start();if(major){var o=ac.createOscillator(),og=ac.createGain();o.frequency.value=140;og.gain.setValueAtTime(.35,ac.currentTime);og.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.03);o.connect(og);og.connect(ac.destination);o.start();o.stop(ac.currentTime+.035)}}
 function set(){var m=mod(Math.floor(det/PER),3);document.getElementById("mode").textContent=modes[m][0];document.getElementById("desc").textContent=modes[m][1];document.getElementById("det").textContent="rev "+pad(Math.floor(det/60))+" · detent "+pad(mod(det,60))+"/60"}
 function render(){var x=ang/STEP,shown=(x-.6*Math.sin(2*Math.PI*x)/(2*Math.PI))*STEP;rot.style.transform="rotate("+shown+"deg)";var d=Math.round(x);if(d===det)return;var dir=d>det?1:-1,n=Math.min(Math.abs(d-det),4),maj=false,mc=false;for(var s=1;s<=n;s++){var c=det+dir*s,a=mod(c,5)===0,m=mod(c,PER)===0;if(a)maj=true;if(m)mc=true;click(a||m)}if(mc)buzz(0,[22,28,9]);else if(maj)buzz(16);else buzz(7);det=d;if(act){act.style.stroke="";act.style.strokeWidth=""}act=ticks[mod(d,60)];act.style.stroke="var(--ac)";act.style.strokeWidth="3.5";set()}
 function stop(){cancelAnimationFrame(raf);raf=0}
-function frame(now){var dt=Math.min(now-lastT,32);lastT=now;if(Math.abs(vel)>.02){var pd=det;ang+=vel*dt;vel*=Math.exp(-dt/520);render();vel*=Math.pow(.985,Math.min(Math.abs(det-pd),4))}else{var tg=Math.round(ang/STEP)*STEP,df=tg-ang;ang+=df*(1-Math.exp(-dt/55));render();if(Math.abs(df)<.04){ang=tg;render();raf=0;return}}raf=requestAnimationFrame(frame)}
+function frame(now){var dt=Math.min(now-lastT,32);lastT=now;if(drag){/* WEIGHT: damped lerp (52ms time constant) - the knob trails the finger like a heavy flywheel; its lagged speed becomes the release momentum */var st=(tgtA-ang)*(1-Math.exp(-dt/52));ang+=st;vel=Math.max(-3,Math.min(3,vel*.55+(st/Math.max(dt,1))*.45));render();raf=requestAnimationFrame(frame);return}if(Math.abs(vel)>.02){var pd=det;ang+=vel*dt;vel*=Math.exp(-dt/640-Math.abs(vel)*dt*.0009);render();vel*=Math.pow(.972,Math.min(Math.abs(det-pd),4))}else{var tg=Math.round(ang/STEP)*STEP,df=tg-ang;ang+=df*(1-Math.exp(-dt/55));render();if(Math.abs(df)<.04){ang=tg;render();raf=0;return}}raf=requestAnimationFrame(frame)}
 function run(){stop();lastT=performance.now();raf=requestAnimationFrame(frame)}
 function pa(e){var r=dial.getBoundingClientRect();return Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2))*180/Math.PI}
-dial.addEventListener("pointerdown",function(e){quiet=false;audio();stop();drag=true;vel=0;moved=0;try{dial.setPointerCapture(e.pointerId)}catch(x){}lastA=pa(e);lastT=e.timeStamp;dial.style.cursor="grabbing";e.preventDefault()});
-dial.addEventListener("pointermove",function(e){if(!drag)return;var a=pa(e),d=a-lastA;if(d>180)d-=360;if(d<-180)d+=360;lastA=a;var dt=e.timeStamp-lastT;lastT=e.timeStamp;ang+=d;moved+=Math.abs(d);if(dt>0)vel=Math.max(-4,Math.min(4,vel*.7+d/dt*.3));render()});
-function end(){if(!drag)return;drag=false;dial.style.cursor="";if(performance.now()-lastT>90)vel=0;if(moved<2)vel=.5;run()}
+dial.addEventListener("pointerdown",function(e){quiet=false;audio();stop();drag=true;vel=0;moved=0;try{dial.setPointerCapture(e.pointerId)}catch(x){}lastA=pa(e);mT=e.timeStamp;tgtA=ang;dial.style.cursor="grabbing";e.preventDefault();run()});
+dial.addEventListener("pointermove",function(e){if(!drag)return;var a=pa(e),d=a-lastA;if(d>180)d-=360;if(d<-180)d+=360;lastA=a;mT=e.timeStamp;tgtA+=d;moved+=Math.abs(d)});/* the finger only moves a TARGET angle; the frame loop drags the heavy knob after it (see frame) */
+function end(){if(!drag)return;drag=false;dial.style.cursor="";if(performance.now()-mT>90)vel=0;if(moved<2)vel=.22;run()}
 ["pointerup","pointercancel","lostpointercapture"].forEach(function(n){dial.addEventListener(n,end)});
 dial.addEventListener("keydown",function(e){var k=e.key,n=0;if(k==="ArrowRight"||k==="ArrowUp")n=1;else if(k==="ArrowLeft"||k==="ArrowDown")n=-1;else if(k==="PageUp")n=5;else if(k==="PageDown")n=-5;if(!n)return;e.preventDefault();quiet=false;audio();stop();vel=0;ang=(Math.round(ang/STEP)+n)*STEP;render()});
 function tg(id,k,w){var b=document.getElementById(id);b.onclick=function(){var on=b.getAttribute("aria-pressed")!=="true";b.setAttribute("aria-pressed",on);b.textContent=w+(on?" on":" off");if(k)haptics=on;else sound=on;audio();if(on&&k)buzz(0,[12])}}
 tg("hp",1,"haptics");tg("sn",0,"sound");
 act.style.stroke="var(--ac)";act.style.strokeWidth="3.5";set();
-var quiet=true,RM=matchMedia("(prefers-reduced-motion: reduce)").matches,bar=document.getElementById("bar"),stage=document.querySelector(".stage"),cards=[].slice.call(document.querySelectorAll(".card")),dls=[].slice.call(document.querySelectorAll(".dock a")),secs=["work","specs","contact"].map(function(id){return document.getElementById(id)}),ly=scrollY,tgt=0,sk=0,skv=0,pr=0;
+var tgtA=0,mT=0,quiet=true,RM=matchMedia("(prefers-reduced-motion: reduce)").matches,bar=document.getElementById("bar"),stage=document.querySelector(".stage"),cards=[].slice.call(document.querySelectorAll(".card")),dls=[].slice.call(document.querySelectorAll(".dock a:not(#cvd)")),secs=["work","specs","contact"].map(function(id){return document.getElementById(id)}),ly=scrollY,tgt=0,sk=0,skv=0,pr=0;
 var rv=[].slice.call(document.querySelectorAll(".sh,.card,.row,.roles div,.cta .mono,.cta h2,.cta .btn"));
-var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add("in");io.unobserve(en.target)}})},{threshold:.12,rootMargin:"0px 0px -6% 0px"});
+var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add("in");io.unobserve(en.target)}})},{threshold:.12,rootMargin:"0px"});
 rv.forEach(function(el,j){el.classList.add("rv");el.style.setProperty("--d",(j%4)*.07+"s");if(RM)el.classList.add("in");else io.observe(el)});
 cards.forEach(function(c){c.s={rx:0,ry:0,vx:0,vy:0,tx:0,ty:0};c.addEventListener("pointermove",function(e){if(e.pointerType!=="mouse"||RM)return;var r=c.getBoundingClientRect();c.s.tx=-((e.clientY-r.top)/r.height-.5)*12;c.s.ty=((e.clientX-r.left)/r.width-.5)*12;kick()});c.addEventListener("pointerleave",function(){c.s.tx=c.s.ty=0;kick()})});
-function phys(){var busy=false;tgt*=.82;skv+=(tgt*.12-sk)*.16;skv*=.76;sk+=skv;if(Math.abs(sk)>.01||Math.abs(tgt)>.05)busy=true;cards.forEach(function(c){var s=c.s;s.vx+=(s.tx-s.rx)*.14;s.vy+=(s.ty-s.ry)*.14;s.vx*=.78;s.vy*=.78;s.rx+=s.vx;s.ry+=s.vy;if(Math.abs(s.rx-s.tx)+Math.abs(s.ry-s.ty)+Math.abs(s.vx)+Math.abs(s.vy)>.01)busy=true;c.style.transform="perspective(800px) rotateX("+s.rx+"deg) rotateY("+s.ry+"deg) skewY("+sk+"deg)"});if(busy)pr=requestAnimationFrame(phys);else{pr=0;cards.forEach(function(c){if(!c.s.tx&&!c.s.ty)c.style.transform=""})}}
+function phys(){var busy=false;tgt*=.82;skv+=(tgt*.12-sk)*.16;skv*=.76;sk+=skv;if(Math.abs(sk)>.01||Math.abs(tgt)>.05)busy=true;cards.forEach(function(c){var s=c.s;s.vx+=(s.tx-s.rx)*.14;s.vy+=(s.ty-s.ry)*.14;s.vx*=.78;s.vy*=.78;s.rx+=s.vx;s.ry+=s.vy;if(Math.abs(s.rx-s.tx)+Math.abs(s.ry-s.ty)+Math.abs(s.vx)+Math.abs(s.vy)>.01)busy=true;c.style.transform="perspective(800px) rotateX("+s.rx+"deg) rotateY("+s.ry+"deg)"});if(busy)pr=requestAnimationFrame(phys);else{pr=0;cards.forEach(function(c){if(!c.s.tx&&!c.s.ty)c.style.transform=""})}}
 function kick(){if(!pr)pr=requestAnimationFrame(phys)}
-addEventListener("scroll",function(){var y=scrollY,d=y-ly;ly=y;var h=document.documentElement.scrollHeight-innerHeight;bar.style.transform="scaleX("+(h>0?y/h:0)+")";stage.style.translate="0 "+Math.min(y,900)*.1+"px";var cur=-1;secs.forEach(function(s,k){if(s.getBoundingClientRect().top<innerHeight*.5)cur=k});dls.forEach(function(a,k){a.classList.toggle("on",k===cur)});if(RM)return;tgt=Math.max(-16,Math.min(16,d));if(!drag){quiet=true;vel=Math.max(-4,Math.min(4,vel+d*.012));if(!raf)run()}kick()},{passive:true});
-if(!RM){vel=2.4;run()}
+addEventListener("scroll",function(){var y=scrollY,d=y-ly;ly=y;var h=document.documentElement.scrollHeight-innerHeight;bar.style.transform="scaleX("+(h>0?y/h:0)+")";stage.style.translate="0 "+Math.min(y,900)*.1+"px";var cur=-1;secs.forEach(function(s,k){if(s.getBoundingClientRect().top<innerHeight*.5)cur=k});dls.forEach(function(a,k){a.classList.toggle("on",k===cur)});if(RM)return;if(!drag){quiet=true;/* DIAL vs SCROLL: each scroll delta is capped to 60px and scaled 0.0014 deg/ms per px (was 0.012, ~9x less), and scroll can only add speed below a 0.55 deg/ms (~1.5 rev/s) ceiling */var g=Math.max(-60,Math.min(60,d))*.0014;if(Math.abs(vel+g)<.55||Math.abs(vel+g)<Math.abs(vel))vel+=g;if(!raf)run()}},{passive:true});
+if(!RM){vel=1.2;run()}
+var lk=document.getElementById("lk"),R=document.documentElement;
+var cv=document.getElementById("cv"),cc=document.getElementById("cvc"),cx=cc.getContext("2d"),els=[],view={x:0,y:0,k:1},tool="pen",ci=0,PAL=["fg","#e31837","#00d26a","#00b8ff","#ffb000"],th={fg:"#fff",mut:"#888"},ptr={},np=0,cur=null,pan=null,gest=null,space=false,dirty=true,cvOpen=false,svT=0,gl=0,ct=0;
+function keep(fn){var y0=scrollY,el=document.elementFromPoint(innerWidth/2,Math.min(innerHeight*.4,420)),a=el&&el.closest(".card,.row,.sh,.roles,.cta,.hero h1,.hero p,.stage,section,footer"),t0=a?a.getBoundingClientRect().top:0;R.style.overflowAnchor="none";fn();var d=a?a.getBoundingClientRect().top-t0:0;R.style.scrollBehavior="auto";if(y0<4)scrollTo(0,0);else if(a){if(d)scrollBy(0,d)}else scrollTo(0,y0);R.style.scrollBehavior="";R.style.overflowAnchor=""}
+function theme(){var s=getComputedStyle(R);th.fg=s.getPropertyValue("--fg").trim()||"#fff";th.mut=s.getPropertyValue("--mut").trim()||"#888";inv()}
+function sz(){var d=Math.min(devicePixelRatio||1,2);cc.width=innerWidth*d;cc.height=innerHeight*d;inv()}
+addEventListener("resize",sz);
+function W(e){return[(e.clientX-view.x)/view.k,(e.clientY-view.y)/view.k]}
+function col(c){return c===0?th.fg:PAL[c]}
+function rng(s){return function(){s|=0;s=s+1831565813|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function dr(el){cx.strokeStyle=col(el.c);cx.lineWidth=el.w;cx.lineCap=cx.lineJoin="round";cx.beginPath();
+if(el.t==="pen"){var p=el.p;cx.moveTo(p[0][0],p[0][1]);if(p.length<3)cx.lineTo(p[p.length-1][0]+.1,p[p.length-1][1]);else{for(var i=1;i<p.length-1;i++)cx.quadraticCurveTo(p[i][0],p[i][1],(p[i][0]+p[i+1][0])/2,(p[i][1]+p[i+1][1])/2);cx.lineTo(p[p.length-1][0],p[p.length-1][1])}}
+else{var r=rng(el.s),a=el.a,b=el.b,amp=Math.min(1,Math.max(Math.abs(b[0]-a[0]),Math.abs(b[1]-a[1]))/60)*3,j=function(){return(r()-.5)*amp};
+if(el.t==="rect"){for(var n=0;n<2;n++){var P=[[a[0],a[1]],[b[0],a[1]],[b[0],b[1]],[a[0],b[1]],[a[0],a[1]]];cx.moveTo(P[0][0]+j(),P[0][1]+j());for(var i=1;i<5;i++)cx.quadraticCurveTo((P[i-1][0]+P[i][0])/2+j(),(P[i-1][1]+P[i][1])/2+j(),P[i][0]+j(),P[i][1]+j())}}
+else if(el.t==="ell"){var ex=(a[0]+b[0])/2,ey=(a[1]+b[1])/2,rx=Math.abs(b[0]-a[0])/2,ry=Math.abs(b[1]-a[1])/2;for(var n=0;n<2;n++)for(var i=0;i<=46;i++){var q=i/44*6.2832+n*.2;cx[i?"lineTo":"moveTo"](ex+rx*Math.cos(q)+j(),ey+ry*Math.sin(q)+j())}}
+else{var L=Math.hypot(b[0]-a[0],b[1]-a[1]),g=Math.atan2(b[1]-a[1],b[0]-a[0]),h=Math.min(16,L*.4);for(var n=0;n<2;n++){cx.moveTo(a[0]+j(),a[1]+j());cx.quadraticCurveTo((a[0]+b[0])/2+j()*2,(a[1]+b[1])/2+j()*2,b[0]+j(),b[1]+j())}cx.moveTo(b[0]-h*Math.cos(g-.5),b[1]-h*Math.sin(g-.5));cx.lineTo(b[0],b[1]);cx.lineTo(b[0]-h*Math.cos(g+.5),b[1]-h*Math.sin(g+.5))}}
+cx.stroke()}
+function draw(){if(!dirty)return;dirty=false;var d=cc.width/innerWidth;cx.setTransform(d,0,0,d,0,0);cx.clearRect(0,0,innerWidth,innerHeight);var sp=24*view.k;while(sp<12)sp*=2;var ox=((view.x%sp)+sp)%sp,oy=((view.y%sp)+sp)%sp;cx.fillStyle=th.mut;cx.globalAlpha=.35;for(var x=ox;x<innerWidth;x+=sp)for(var y=oy;y<innerHeight;y+=sp)cx.fillRect(x-.75,y-.75,1.5,1.5);cx.globalAlpha=1;cx.setTransform(d*view.k,0,0,d*view.k,d*view.x,d*view.y);els.forEach(dr);if(cur)dr(cur);document.getElementById("zm").textContent=Math.round(view.k*100)+"%"}
+function inv(){dirty=true;requestAnimationFrame(draw)}
+function save(){clearTimeout(svT);svT=setTimeout(function(){try{localStorage.setItem("cvdata",JSON.stringify({e:els,v:view,o:cvOpen,t:tool,c:ci}))}catch(x){}},250)}
+function sg(p,a,b){var vx=b[0]-a[0],vy=b[1]-a[1],t=Math.max(0,Math.min(1,((p[0]-a[0])*vx+(p[1]-a[1])*vy)/(vx*vx+vy*vy||1)));return Math.hypot(p[0]-a[0]-t*vx,p[1]-a[1]-t*vy)}
+function hit(el,w){var r=10/view.k;if(el.t==="pen")return el.p.some(function(q,i){return i&&sg(w,el.p[i-1],q)<r||Math.hypot(w[0]-q[0],w[1]-q[1])<r});var a=el.a,b=el.b;if(el.t==="arrow")return sg(w,a,b)<r;if(el.t==="rect"){var P=[[a[0],a[1]],[b[0],a[1]],[b[0],b[1]],[a[0],b[1]],[a[0],a[1]]];return P.some(function(q,i){return i&&sg(w,P[i-1],q)<r})}var ex=(a[0]+b[0])/2,ey=(a[1]+b[1])/2,rx=Math.abs(b[0]-a[0])/2||1,ry=Math.abs(b[1]-a[1])/2||1,u=Math.hypot((w[0]-ex)/rx,(w[1]-ey)/ry);return Math.abs(u-1)*Math.min(rx,ry)<r}
+function erase(w){for(var i=els.length-1;i>=0;i--)if(hit(els[i],w)){els.splice(i,1);buzz(7);inv();save();break}}
+function glide(vx,vy){cancelAnimationFrame(gl);var t=performance.now();(function f(n){var dt=Math.min(32,n-t);t=n;view.x+=vx*dt;view.y+=vy*dt;vx*=Math.exp(-dt/260);vy*=Math.exp(-dt/260);inv();if(Math.hypot(vx,vy)>.02)gl=requestAnimationFrame(f);else save()})(t)}
+function stopGlide(){cancelAnimationFrame(gl)}
+function down(e){e.preventDefault();stopGlide();document.getElementById("ht").style.opacity=0;try{cc.setPointerCapture(e.pointerId)}catch(x){}ptr[e.pointerId]=[e.clientX,e.clientY];np=Object.keys(ptr).length;
+if(np===2){cur=null;pan=null;var k=Object.keys(ptr),p=ptr[k[0]],q=ptr[k[1]];gest={d:Math.hypot(p[0]-q[0],p[1]-q[1])||1,cx:(p[0]+q[0])/2,cy:(p[1]+q[1])/2,v:{x:view.x,y:view.y,k:view.k}};return}
+if(np>2)return;
+if(tool==="hand"||e.button===1||space){pan={x:e.clientX,y:e.clientY,vx:0,vy:0,t:e.timeStamp};return}
+var w=W(e);if(tool==="eraser"){erase(w);return}
+var s=Math.random()*1e9|0;cur=tool==="pen"?{t:"pen",p:[w],c:ci,w:2.4,s:s}:{t:tool,a:w,b:w,c:ci,w:2.4,s:s};inv()}
+function move(e){if(!ptr[e.pointerId])return;ptr[e.pointerId]=[e.clientX,e.clientY];
+if(gest){if(np===2){var k=Object.keys(ptr),p=ptr[k[0]],q=ptr[k[1]],d=Math.hypot(p[0]-q[0],p[1]-q[1]),mx=(p[0]+q[0])/2,my=(p[1]+q[1])/2,nk=Math.max(.1,Math.min(8,gest.v.k*d/gest.d)),wx=(gest.cx-gest.v.x)/gest.v.k,wy=(gest.cy-gest.v.y)/gest.v.k;view.k=nk;view.x=mx-wx*nk;view.y=my-wy*nk;inv()}return}
+if(pan){var dx=e.clientX-pan.x,dy=e.clientY-pan.y,dt=Math.max(1,e.timeStamp-pan.t);view.x+=dx;view.y+=dy;pan.vx=pan.vx*.6+dx/dt*.4;pan.vy=pan.vy*.6+dy/dt*.4;pan.x=e.clientX;pan.y=e.clientY;pan.t=e.timeStamp;inv();return}
+if(tool==="eraser"){erase(W(e));return}
+if(cur){var w=W(e);if(cur.t==="pen"){var l=cur.p[cur.p.length-1];if(Math.hypot(w[0]-l[0],w[1]-l[1])*view.k>2)cur.p.push(w)}else cur.b=w;inv()}}
+function up(e){if(!ptr[e.pointerId])return;delete ptr[e.pointerId];np=Object.keys(ptr).length;if(np===0){gest=null;if(pan){glide(pan.vx,pan.vy);pan=null}if(cur){if(cur.t==="pen"||Math.hypot(cur.b[0]-cur.a[0],cur.b[1]-cur.a[1])>2)els.push(cur);cur=null;inv()}save()}}
+cc.addEventListener("pointerdown",down);cc.addEventListener("pointermove",move);["pointerup","pointercancel"].forEach(function(n){cc.addEventListener(n,up)});cc.oncontextmenu=function(e){e.preventDefault()};
+cc.addEventListener("wheel",function(e){e.preventDefault();stopGlide();if(e.ctrlKey||e.metaKey){var nk=Math.max(.1,Math.min(8,view.k*Math.exp(-e.deltaY*.01))),wx=(e.clientX-view.x)/view.k,wy=(e.clientY-view.y)/view.k;view.k=nk;view.x=e.clientX-wx*nk;view.y=e.clientY-wy*nk}else{view.x-=e.deltaX;view.y-=e.deltaY}inv();save()},{passive:false});
+cv.addEventListener("wheel",function(e){e.preventDefault()},{passive:false});
+function setTool(t){tool=t;[].forEach.call(document.querySelectorAll(".tb [data-t]"),function(b){b.classList.toggle("on",b.dataset.t===t)});cc.style.cursor=t==="hand"?"grab":t==="eraser"?"cell":"crosshair";save()}
+function setCol(i){ci=i;[].forEach.call(document.querySelectorAll(".tb [data-c]"),function(b){b.classList.toggle("on",+b.dataset.c===i)});save()}
+function undo(){if(els.length){els.pop();inv();save();buzz(10)}}
+function tog(o,silent){if(o===undefined)o=!cvOpen;cvOpen=o;cv.classList.toggle("open",o);cv.setAttribute("aria-hidden",!o);document.getElementById("cvb").classList.toggle("on",o);if(o){document.getElementById("ht").style.opacity=1;theme();if(!silent){quiet=false;audio();click(true);buzz(0,[12,20,8])}}save()}
+document.querySelector(".tb").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;if(b.dataset.t){setTool(b.dataset.t)}else if(b.dataset.c!==undefined){setCol(+b.dataset.c)}else return;quiet=false;buzz(8);click(false)});
+document.getElementById("cvu").onclick=undo;
+document.getElementById("cvk").onclick=function(){tog(false)};
+document.getElementById("cvb").onclick=function(){tog()};
+document.getElementById("cvd").onclick=function(e){e.preventDefault();tog()};
+document.getElementById("cvx").onclick=function(){var b=this;if(ct){els=[];ct=0;b.textContent="clear";inv();save();buzz(0,[20,30,10])}else{ct=1;b.textContent="sure?";setTimeout(function(){ct=0;b.textContent="clear"},2000)}};
+document.getElementById("zm").onclick=function(){stopGlide();(function f(){view.x*=.8;view.y*=.8;view.k+=(1-view.k)*.2;inv();if(Math.abs(view.x)+Math.abs(view.y)+Math.abs(view.k-1)>.05)gl=requestAnimationFrame(f);else{view.x=view.y=0;view.k=1;inv();save()}})()};
+addEventListener("keydown",function(e){if(!cvOpen)return;var k=e.key.toLowerCase();if(k==="escape"){tog(false);return}if(k===" "){space=true;e.preventDefault();return}if(e.ctrlKey||e.metaKey){if(k==="z"){e.preventDefault();undo()}return}var m={h:"hand",p:"pen",r:"rect",o:"ell",a:"arrow",e:"eraser"};if(m[k])setTool(m[k])});
+addEventListener("keyup",function(e){if(e.key===" ")space=false});
+try{var s0=JSON.parse(localStorage.getItem("cvdata")||"null");if(s0){els=s0.e||[];view=s0.v||view;tool=s0.t||tool;ci=s0.c||0;if(s0.o)setTimeout(function(){tog(true,true)},900)}}catch(x){}
+sz();setTool(tool);setCol(ci);
+/* SCROLL-TO-END FIX: the target is re-measured EVERY frame (scrollHeight, header height, reveals, fonts, late layout) and clamped to the live max scroll, and the glide keeps checking ~8 frames after arrival, so it can never stop short. Any wheel/touch/key press cancels it. */
+function maxY(){return Math.max(0,R.scrollHeight-R.clientHeight)}
+var goRaf=0;
+function goTo(fn){cancelAnimationFrame(goRaf);var stopped=false,t=performance.now(),still=0,evs=["wheel","touchstart","keydown"];function off(){stopped=true}function fin(){evs.forEach(function(n){removeEventListener(n,off)});R.style.scrollBehavior=""}R.style.scrollBehavior="auto";evs.forEach(function(n){addEventListener(n,off,{passive:true})});(function f(now){var dt=Math.min(40,now-t);t=now;if(stopped){fin();return}var y=scrollY,tg=Math.max(0,Math.min(fn(),maxY())),df=tg-y;if(Math.abs(df)<.6){scrollTo(0,tg);if(++still>8){fin();return}}else{still=0;var s=df*(1-Math.exp(-dt/(RM?1:120)));if(Math.abs(s)<1)s=df>0?1:-1;scrollTo(0,y+s)}goRaf=requestAnimationFrame(f)})(t)}
+window.scrollToBottom=function(){goTo(maxY)};
+[].forEach.call(document.querySelectorAll('a[href^="#"]'),function(a){if(a.id==="cvd")return;a.addEventListener("click",function(e){var h=a.getAttribute("href"),el=h==="#top"?null:document.querySelector(h);if(h!=="#top"&&!el)return;e.preventDefault();goTo(function(){return el?el.getBoundingClientRect().top+scrollY-document.querySelector("header").getBoundingClientRect().bottom-(scrollY>0?8:0):0})})});
+/* iOS only shows :active if a touchstart listener exists; also a 6ms haptic tick the instant any control is pressed */
+document.addEventListener("touchstart",function(){},{passive:true});
+document.addEventListener("pointerdown",function(e){if(e.target.closest&&e.target.closest(".btn,.lk,.tg,.dock a,header nav a,.tb button")){quiet=false;buzz(6)}},{passive:true});
+/* ASCII hover: a plasma of . : - = + * # % @ painted at ~30fps ONLY while hovered (+1s fade-out); CSS handles the exact 1s transition */
+/* ASCII MASK: samples the card's own geometry (border, title/description text lines, tags, art box and each svg shape) onto a character grid, so ASCII only appears ON those elements, in their shape */
+var CW=0;
+function mkMask(c){if(!CW){var p=document.createElement("span");p.style.cssText="position:absolute;visibility:hidden;white-space:pre;font:10px/10px ui-monospace,'SF Mono',Menlo,monospace";p.textContent="0000000000";document.body.appendChild(p);CW=p.offsetWidth/10||6;p.remove()}var cr=c.getBoundingClientRect(),ox=cr.left+c.clientLeft,oy=cr.top+c.clientTop,cols=Math.ceil(c.clientWidth/CW)+1,rows=Math.ceil(c.clientHeight/10)+1,m=new Uint8Array(cols*rows);function box(x0,y0,x1,y1,mode){var a=Math.max(0,Math.floor(x0/CW)),b=Math.min(cols-1,Math.floor((x1-.01)/CW)),r0=Math.max(0,Math.floor(y0/10)),r1=Math.min(rows-1,Math.floor((y1-.01)/10));for(var r=r0;r<=r1;r++)for(var q=a;q<=b;q++){if(mode===1&&r!==r0&&r!==r1&&q!==a&&q!==b)continue;if(mode===2){var ex=((q+.5)*CW-(x0+x1)/2)/((x1-x0)/2||1),ey=((r+.5)*10-(y0+y1)/2)/((y1-y0)/2||1);if(ex*ex+ey*ey>1)continue}m[r*cols+q]=1}}function rc(el,mode){var r=el.getBoundingClientRect();box(r.left-ox,r.top-oy,r.right-ox,r.bottom-oy,mode)}box(0,0,c.clientWidth,c.clientHeight,1);[].forEach.call(c.querySelectorAll("h3,p"),function(el){var g=document.createRange();g.selectNodeContents(el);[].forEach.call(g.getClientRects(),function(r){box(r.left-ox,r.top-oy,r.right-ox,r.bottom-oy,0)})});[].forEach.call(c.querySelectorAll(".tags span"),function(el){rc(el,0)});[].forEach.call(c.querySelectorAll(".art"),function(el){rc(el,1)});[].forEach.call(c.querySelectorAll(".art svg *,.art .bot,.art .line"),function(el){var t=el.tagName.toLowerCase();if(t==="circle"||t==="ellipse")rc(el,2);else if(t==="rect"&&getComputedStyle(el).fill==="none")rc(el,1);else rc(el,0)});return{m:m,cols:cols,rows:rows}}
+cards.forEach(function(c){var pre=document.createElement("pre");pre.className="asc";pre.setAttribute("aria-hidden","true");c.appendChild(pre);var on=false,r2=0,cols=0,rows=0,mask=[],t0=0,off=0,last=0,tmo=0,C=" .:-=+*#%@";function paint(now){if(now-last>=33){last=now;var t=(now-t0)/1000,s="";for(var y=0;y<rows;y++){for(var x=0;x<cols;x++){var v=(Math.sin(x*.19+t*3)+Math.sin(y*.33-t*2.2)+Math.sin((x+y)*.11+t*1.4)+3)/6;s+=mask[y*cols+x]?C[Math.min(9,3+(v*7|0))]:" "}s+="\n"}pre.textContent=s}if(on||now<off)r2=requestAnimationFrame(paint);else r2=0}function hv(v){if(v===on||RM)return;on=v;if(v){var mk=mkMask(c);mask=mk.m;cols=mk.cols;rows=mk.rows;t0=performance.now();c.classList.add("hv");if(!r2)r2=requestAnimationFrame(paint)}else{c.classList.remove("hv");off=performance.now()+1000}}c.addEventListener("pointerenter",function(e){if(e.pointerType==="mouse")hv(true)});c.addEventListener("pointerleave",function(){hv(false)});c.addEventListener("pointerdown",function(e){if(e.pointerType!=="mouse"){hv(true);clearTimeout(tmo);tmo=setTimeout(function(){hv(false)},1400)}})});
+function look(v,anim){if(anim){R.classList.add("sw");setTimeout(function(){R.classList.remove("sw")},500)}if(v==="terminal")R.setAttribute("data-look","terminal");else R.removeAttribute("data-look");lk.textContent="look · "+(v==="terminal"?"terminal":"te");theme();try{localStorage.setItem("look",v)}catch(x){}}
+var sv="te";try{sv=localStorage.getItem("look")||"te"}catch(x){}
+look(sv,false);
+lk.onclick=function(){quiet=false;audio();var n=R.getAttribute("data-look")==="terminal"?"te":"terminal";keep(function(){look(n,true)});click(true);buzz(0,[14,22,8])};
 </script>
 </body>
 </html>
